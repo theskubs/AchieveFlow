@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AchieveFlow - Track Progress</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="content">
+        <h1>Track Your Habits</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Habit</th>
+                    <th>Goal</th>
+                    <th>Completed</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for habit in habits %}
+                <tr>
+                    <td>{{ habit[0] }}</td>
+                    <td>{{ habit[1] }}</td>
+                    <td>{{ habit[2] }}</td>
+                    <td>{{ habit[3] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/download_csv" class="download-btn">Download CSV</a>
+    </div>
+</body>
+</html>
+
+
+
