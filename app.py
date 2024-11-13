@@ -1,69 +1,77 @@
-from flask import Flask, render_template, request, redirect, send_file
+from flask import Flask, render_template, request, redirect, send_file 
 import csv
 import os
 import matplotlib.pyplot as plt
 from datetime import datetime
+from io import BytesIO
+import base64
 
 app = Flask(__name__)
 
-# Path to the CSV data file
+
+# Sample data 
 data_file = 'data.csv'
 
-# Initialize the CSV file if it doesn't exist, with headers
+# Initialize data file if it doesn't exist
 def init_csv():
     if not os.path.exists(data_file):
         with open(data_file, mode='w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['habit', 'goal', 'completed', 'date'])  # Headers for CSV file
 
-# Route to add a new habit (GET shows the form, POST handles form submission)
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+# Route to add a habit
 @app.route('/add_habit', methods=['GET', 'POST'])
 def add_habit():
     if request.method == 'POST':
         habit_name = request.form['habit-name']
         goal = request.form['habit-goal']
         completed = 0  # Default completed value for a new habit
-        date = datetime.now().strftime('%Y-%m-%d')  # Current date for the entry
+        date = datetime.now().strftime('%Y-%m-%d')  # Current date
 
-        # Append the new habit data to the CSV file
+        # Append data to CSV
         with open(data_file, mode='a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([habit_name, goal, completed, date])
 
-        return redirect('/track')  # Redirect to the tracking page
-    return render_template('add_habit.html')  # Render the add habit form
+        return redirect('/track')
+    return render_template('add_habit.html')
 
-# Route to display the habit data in a table and provide CSV download link
+# Route to display habits in a table and allow downloading CSV
 @app.route('/track')
 def track():
     habits = []
-    # Read the CSV data and store it in a list for rendering
     with open(data_file, mode='r') as file:
         reader = csv.reader(file)
-        next(reader)  # Skip the header row
+        next(reader)  # Skip header row
         habits = list(reader)
     return render_template('track.html', habits=habits)
 
-# Route to download the CSV file directly
+# Route to download the CSV file
 @app.route('/download_csv')
 def download_csv():
     return send_file(data_file, as_attachment=True, mimetype='text/csv', download_name='habits.csv')
 
-# Route to generate and display the progress chart
+# Route to dynamically generate and display the progress chart
 @app.route('/progress')
 def progress():
+    habits = []
     dates = []
     completed_counts = []
 
-    # Read CSV data to get dates and completed counts for chart generation
+    # Read CSV data
     with open(data_file, mode='r') as file:
         reader = csv.reader(file)
-        next(reader)  # Skip the header row
+        next(reader)  # Skip header row
         for row in reader:
-            dates.append(row[3])  # Date
-            completed_counts.append(int(row[2]))  # Completed count
+            habits.append(row[0])
+            completed_counts.append(int(row[2]))
+            dates.append(row[3])
 
-    # Generate the chart with Matplotlib
+    # Generate chart
     plt.figure(figsize=(10, 5))
     plt.plot(dates, completed_counts, marker='o', color='#139E1C')
     plt.title("Habit Progress Over Time")
@@ -72,16 +80,18 @@ def progress():
     plt.xticks(rotation=45)
     plt.tight_layout()
 
-    # Save the chart as an image in the static folder for display
-    chart_path = os.path.join('static', 'progress_chart.png')
-    plt.savefig(chart_path)
+    # Save chart to a BytesIO stream
+    img = BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
     plt.close()
 
-    # Render the progress page, which displays the saved chart image
-    return render_template('progress.html')
+    # Encode image to base64 to display inline
+    img_base64 = base64.b64encode(img.getvalue()).decode('utf-8')
+    return render_template('progress.html', img_data=img_base64)
 
-# Main entry point, initialize the CSV file and start the Flask app
 if __name__ == '__main__':
-    init_csv()  # Ensure CSV file is ready
-    app.run(debug=True)  # Run the Flask app in debug mode
+    init_csv()
+    app.run(debug=True)
+
 
