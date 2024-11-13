@@ -6,7 +6,6 @@ body {
     padding: 0;
 }
 
-/* Navbar Styling */
 header {
     background-color: white;
     display: flex;
@@ -20,43 +19,34 @@ header img.logo {
     height: 50px;
 }
 
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: space-around; /* Spread the items evenly */
-}
-
-nav ul li {
-    display: inline-block;
-}
-
-nav ul li a {
-    color: #139E1C; /* Green text color */
+nav a {
+    color: #7ed957; /* Text color for normal state */
+    margin: 0 10px;
     text-decoration: none;
-    font-family: 'Nunito', sans-serif;
     font-weight: bold;
-    padding: 10px;
-    position: relative;
+    font-size: 16px;
+    position: relative; /* Required for the hover effect */
 }
 
-nav ul li a::after {
+nav a:hover {
+    color: #139e1c; /* Text color changes to dark green on hover */
+}
+
+nav a::before {
     content: '';
     position: absolute;
+    bottom: -5px;
+    left: 0;
     width: 0;
     height: 3px;
-    background-color: #139E1C; /* Dark green underline on hover */
-    bottom: 0;
-    left: 0;
-    transition: width 0.3s ease-in-out;
+    background-color: #139e1c; /* Dark green hover bar */
+    transition: width 0.3s ease;
 }
 
-nav ul li a:hover::after {
-    width: 100%; /* Expands the green line under the word */
+nav a:hover::before {
+    width: 100%;
 }
 
-/* Container Styles */
 .container {
     display: flex;
     justify-content: center;
@@ -98,10 +88,15 @@ nav ul li a:hover::after {
     margin-top: 10px;
 }
 
-/* Start Now Button Styling */
+.start-container {
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* Style for the Start Now button */
 .start-now-btn {
     display: inline-block;
-    background-color: #7ED957; /* Light green background */
+    background-color: #7ED957; /* Green background */
     color: white;
     padding: 10px 20px;
     text-align: center;
@@ -112,83 +107,7 @@ nav ul li a:hover::after {
 }
 
 .start-now-btn:hover {
-    background-color: #139E1C; /* Dark green on hover */
+    background-color: #139E1C; /* Darker green on hover */
 }
 
-.start-container {
-    text-align: center;
-    margin-top: 40px;
-}
 
-/* General content styling */
-.content {
-    padding: 20px;
-    font-family: 'Nunito', sans-serif;
-}
-
-/* Table styling for the Track page */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table, th, td {
-    border: 1px solid #139E1C;
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
-    font-family: 'Nunito', sans-serif;
-}
-
-th {
-    background-color: #7ED957; /* Light green background for headers */
-    color: white;
-}
-
-td {
-    background-color: white;
-    color: black;
-}
-
-/* For headings */
-h1 {
-    color: #FF3131; /* Red color */
-    font-family: 'Nunito', sans-serif;
-}
-
-/* Contact Page */
-p a {
-    color: #139E1C;
-    text-decoration: none;
-}
-
-p a:hover {
-    text-decoration: underline;
-}
-
-/* Footer (if applicable) */
-footer {
-    text-align: center;
-    padding: 20px;
-    font-family: 'Nunito', sans-serif;
-    color: #7ED957;
-    background-color: #ff3131;
-}
-/* Download button styling */
-.download-btn {
-    display: inline-block;
-    background-color: #7ED957;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.download-btn:hover {
-    background-color: #139E1C;
-}
