@@ -1,3 +1,4 @@
+<!--progress-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,13 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AchieveFlow - Progress</title>
     <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-    {% include 'navbar.html' %}
+    <body>
+        <header>
+            <img src="/assets/logo_2.png" class="logo" alt="AchieveFlow Logo">
+            <nav>
+                <a href="/">Home</a>
+                <a href="/">Get Started</a>
+                <a href="/track">Track</a>
+                <a href="/progress">Progress</a>
+                <a href="/contact">Contact</a>
+            </nav>
+        </header>
+         <!-- Form Container -->
+    <div class="form-container">
+        <h1>Add a New Habit</h1>
+        <form action="/add_habit" method="POST">
+            <label for="habit_name">Habit Name</label>
+            <input type="text" id="habit_name" name="habit_name" placeholder="E.g. Read a chapter" required>
 
-    <div class="content">
-        <h1>Your Progress</h1>
-        <img src="/static/progress_chart.png" alt="Progress Chart">
+            <label for="goal">Goal</label>
+            <input type="number" id="goal" name="goal" placeholder="Number of times per week" required>
+
+            <button type="submit" class="save-btn">Save</button>
+        </form>
     </div>
 </body>
 </html>
+
