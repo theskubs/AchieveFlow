@@ -12,7 +12,7 @@ app = Flask(__name__)
 # Sample data 
 data_file = 'data.csv'
 
-# Initialize data file if it doesn't exist
+# Initialize data file
 def init_csv():
     if not os.path.exists(data_file):
         with open(data_file, mode='w', newline='') as file:
@@ -36,8 +36,8 @@ def add_habit():
         with open(data_file, mode='a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([habit_name, goal, completed, date])
-
-        return redirect('/track')
+            
+        return redirect('/track')  # Redirect to the track page
     return render_template('add_habit.html')
 
 # Route to display habits in a table and allow downloading CSV
@@ -54,6 +54,17 @@ def track():
 @app.route('/download_csv')
 def download_csv():
     return send_file(data_file, as_attachment=True, mimetype='text/csv', download_name='habits.csv')
+
+# Route to display habits in a table
+@app.route('/track')
+def track():
+    habits = []
+    # Read habits from the CSV file
+    with open(data_file, mode='r') as file:
+        reader = csv.reader(file)
+        next(reader)  # Skip header row
+        habits = list(reader)
+    return render_template('track.html', habits=habits)
 
 # Route to dynamically generate and display the progress chart
 @app.route('/progress')
@@ -89,6 +100,16 @@ def progress():
     # Encode image to base64 to display inline
     img_base64 = base64.b64encode(img.getvalue()).decode('utf-8')
     return render_template('progress.html', img_data=img_base64)
+
+# Route to download the CSV file
+@app.route('/download_csv')
+def download_csv():
+    return send_file(data_file, as_attachment=True, mimetype='text/csv', download_name='habits.csv')
+
+# Route for the contact page
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 if __name__ == '__main__':
     init_csv()
