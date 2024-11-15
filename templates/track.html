@@ -1,3 +1,4 @@
+<!--track-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +8,19 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    {% include 'navbar.html' %}
-
+    <header>
+        <img src="/assets/logo_2.png" class="logo" alt="AchieveFlow Logo">
+        <nav>
+            <a href="/">Get Started</a>
+            <a href="/track">Track</a>
+            <a href="/progress">Progress</a>
+            <a href="/contact">Contact</a>
+        </nav>
+    </header>
     <div class="content">
         <h1>Track Your Habits</h1>
+        
+        <!-- Table displaying habits -->
         <table>
             <thead>
                 <tr>
@@ -31,10 +41,25 @@
                 {% endfor %}
             </tbody>
         </table>
+        
+        <!-- Download CSV button -->
         <a href="/download_csv" class="download-btn">Download CSV</a>
+        {% else %}
+        <p>No habits found. Start by adding a new habit.</p>
+        {% endif %}
+
+        <!-- Dynamic chart section -->
+        <div class="chart-container">
+            <h2>Habit Completion Chart</h2>
+            <img src="data:image/png;base64,{{ chart_img_data }}" alt="Habit Completion Chart" class="dynamic-chart">
+            {% else %}
+            <p>No data available to generate the chart.</p>
+            {% endif %}
+        </div>
     </div>
 </body>
 </html>
+
 
 
 
