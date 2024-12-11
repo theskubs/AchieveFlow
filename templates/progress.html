@@ -1,4 +1,3 @@
-<!--progress-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,30 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AchieveFlow - Progress</title>
     <link rel="stylesheet" href="/static/style.css">
-    <body>
-        <header>
-            <img src="/assets/logo_2.png" class="logo" alt="AchieveFlow Logo">
-            <nav>
-                <a href="/">Home</a>
-                <a href="/">Get Started</a>
-                <a href="/track">Track</a>
-                <a href="/progress">Progress</a>
-                <a href="/contact">Contact</a>
-            </nav>
-        </header>
-         <!-- Form Container -->
-    <div class="form-container">
-        <h1>Add a New Habit</h1>
-        <form action="/add_habit" method="POST">
-            <label for="habit_name">Habit Name</label>
-            <input type="text" id="habit_name" name="habit_name" placeholder="E.g. Read a chapter" required>
+    <header>
+        <div class="logo-container">
+            <img src="/assets/logo_2.png" alt="Achieve Flow Logo" class="logo">
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/templates/add_habit.html">Add Habits</a></li>
+                <li><a href="/templates/track.html">Track</a></li>
+                <li><a href="/templates/progress.html">Progress</a></li>
+                <li><a href="/templates/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-            <label for="goal">Goal</label>
-            <input type="number" id="goal" name="goal" placeholder="Number of times per week" required>
-
-            <button type="submit" class="save-btn">Save</button>
-        </form>
+    <div class="progress-container">
+        <h1>Habit Progress</h1>
+        <div>
+            <h2>Completed Habits Over Time</h2>
+            <canvas id="lineChart"></canvas>
+        </div>
+        <div>
+            <h2>Habit Completion Distribution</h2>
+            <canvas id="pieChart"></canvas>
+        </div>
     </div>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Fetch data from the server
+        fetch('/progress-data')
+            .then(response => response.json())
+            .then(data => {
+                const ctxLine = document.getElementById('lineChart').getContext('2d');
+                const ctxPie = document.getElementById('pieChart').getContext('2d');
+
+                // Line Chart
+                new Chart(ctxLine, {
+                    type: 'line',
+                    data: {
+                        labels: data.dates,
+                        datasets: [{
+                            label: 'Completed Habits Over Time',
+                            data: data.completed,
+                            borderColor: 'rgba(19, 158, 28, 1)',
+                            borderWidth: 2,
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: true },
+                            tooltip: { enabled: true }
+                        },
+                        scales: {
+                            x: { title: { display: true, text: 'Dates' } },
+                            y: { title: { display: true, text: 'Completed Habits' } }
+                        }
+                    }
+                });
+
+                // Pie Chart
+                new Chart(ctxPie, {
+                    type: 'pie',
+                    data: {
+                        labels: data.habits,
+                        datasets: [{
+                            data: data.completed,
+                            backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#139E1C'],
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: true },
+                            tooltip: { enabled: true }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching progress data:', error));
+    </script>
 </body>
 </html>
-
