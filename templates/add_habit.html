@@ -6,19 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Habit - Achieve Flow</title>
     <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
     <header>
-        <img src="/assets/logo_2.png" alt="Achieve Flow Logo" class="logo">
-            <nav>
-                <ul>
-                    <a href="/">Home</a>
-                    <a href="/add_habit">Get Started</a>
-                    <a href="/track">Track</a>
-                    <a href="/progress">Progress</a>
-                    <a href="/contact">Contact</a>
-                </ul>
-            </nav>
+        <div class="logo-container">
+            <img src="/assets/logo_2.png" alt="Achieve Flow Logo" class="logo">
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/templates/add_habit.html">Add Habits</a></li>
+                <li><a href="/templates/track.html">Track</a></li>
+                <li><a href="/templates/progress.html">Progress</a></li>
+                <li><a href="/templates/contact.html">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
     <div class="form-container">
@@ -28,7 +28,14 @@
             <input type="text" id="habit_name" name="habit_name" placeholder="E.g. Read a chapter" required>
 
             <label for="goal">Goal</label>
-            <input type="number" id="goal" name="goal" placeholder="Number of times per month">
+            <input type="number" id="goal" name="goal" placeholder="E.g. Number of times per month" required>
+
+            <label for="granularity">Track By</label>
+            <select id="granularity" name="granularity" required>
+                <option value="day">Day</option>
+                <option value="month">Month</option>
+                <option value="year">Year</option>
+            </select>
 
             <button type="submit" class="save-btn">Save</button>
         </form>
