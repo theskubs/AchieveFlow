@@ -6,17 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Achieve Flow</title>
     <link rel="stylesheet" href="/static/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
-</head>
-<body>
     <header>
-        <img src="/assets/logo_2.png" class="logo" alt="AchieveFlow Logo">
+        <div class="logo-container">
+            <img src="/assets/logo_2.png" alt="Achieve Flow Logo" class="logo">
+        </div>
         <nav>
-            <a href="/">Home</a>
-            <a href="/">Get Started</a>
-            <a href="/track">Track</a>
-            <a href="/progress">Progress</a>
-            <a href="/contact">Contact</a>
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/templates/add_habit.html">Add Habits</a></li>
+                <li><a href="/templates/track.html">Track</a></li>
+                <li><a href="/templates/progress.html">Progress</a></li>
+                <li><a href="/templates/contact.html">Contact</a></li>
+            </ul>
         </nav>
     </header>
     
@@ -46,7 +47,7 @@
     </div>
     <!--Start Button-->
     <div class="start-container">
-        <a href="#" class="start-now-btn">Start Now</a>
+        <a href="/templates/login.html" class="start-now-btn">Log in</a> <!-- link to login -->
     </div>
 </body>
 </html>
